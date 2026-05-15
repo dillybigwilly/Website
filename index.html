@@ -11,6 +11,60 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Inter+Tight:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .form-thanks { padding: 24px 8px; text-align: center; }
+    .form-thanks h3 {
+      font-family: "Archivo", sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+      color: var(--green);
+    }
+    .form-thanks p {
+      font-size: 15px;
+      color: var(--on-dark);
+      line-height: 1.55;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .form-thanks p a { color: var(--green); text-decoration: underline; }
+  </style>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form[data-form="inquiry"]');
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const originalLabel = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Sending…';
+        const data = Object.fromEntries(new FormData(form).entries());
+        try {
+          const resp = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await resp.json();
+          if (result.success) {
+            form.innerHTML =
+              '<div class="form-thanks">' +
+              '<h3>Thanks — we got it.</h3>' +
+              '<p>We\'ll be back to you with a written quote within 24 hours. If it\'s urgent, give us a call at <a href="tel:+16138189670">(613) 818-9670</a>.</p>' +
+              '</div>';
+          } else {
+            throw new Error(result.message || 'Submission failed');
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = originalLabel;
+          alert('Something went wrong sending your inquiry. Please try again or call (613) 818-9670.');
+        }
+      });
+    });
+  </script>
 </head>
 <body data-screen-label="Home" style="">
 
@@ -161,12 +215,12 @@
         </div>
       </div>
 
-      <form class="form" action="https://formsubmit.co/thiviergeservices@gmail.com" method="POST">
-        <!-- FormSubmit configuration -->
-        <input type="hidden" name="_subject" value="New website inquiry — Thivierge Goods &amp; Services">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <form class="form" action="https://api.web3forms.com/submit" method="POST" data-form="inquiry">
+        <!-- Web3Forms configuration -->
+        <input type="hidden" name="access_key" value="c636de9c-5ea7-429c-bbf4-e2239f8b589b">
+        <input type="hidden" name="subject" value="New website inquiry — Thivierge Goods &amp; Services">
+        <input type="hidden" name="from_name" value="Thivierge website">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
         <div class="form-row">
           <div class="field"><label>First name</label><input type="text" name="first_name" placeholder="Alex" required=""></div>
