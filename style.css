@@ -588,6 +588,26 @@ section { padding: 96px 0; }
   backdrop-filter: blur(4px);
 }
 
+/* Placeholder photo card — used until a real photo is uploaded */
+.case-photo-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  background:
+    repeating-linear-gradient(135deg, #1a1e16 0 14px, #232820 14px 28px);
+  position: relative;
+}
+.case-photo-placeholder::before {
+  content: "Photo coming soon";
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+  padding: 8px 14px;
+  background: rgba(15,18,13,0.85);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
 .case-body {
   padding: 24px 28px 26px;
   flex: 1;
