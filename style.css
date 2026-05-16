@@ -65,7 +65,7 @@ section { padding: 96px 0; }
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand-mark {
   width: 52px; height: 52px;
-  background: url('assets/logo.png') center/contain no-repeat;
+  background: url('assets/logo.webp') center/contain no-repeat;
   border-radius: 4px;
 }
 .brand-name { line-height: 1; }
